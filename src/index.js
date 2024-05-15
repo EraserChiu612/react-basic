@@ -5,10 +5,14 @@ import { RouterProvider } from 'react-router-dom'
 import router from './router'
 import { Provider } from 'react-redux'
 import store from './store'
+import { ConfigProvider } from 'antd-mobile'
+import zhTW from 'antd-mobile/es/locales/zh-TW'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-	<Provider store={store}>
-		<RouterProvider router={router} />
-	</Provider>
+	<ConfigProvider locale={zhTW}>
+		<Provider store={store}>
+			<RouterProvider router={router} />
+		</Provider>
+	</ConfigProvider>
 )
