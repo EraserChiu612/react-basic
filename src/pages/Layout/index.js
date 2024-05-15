@@ -1,8 +1,32 @@
-import { Outlet } from 'react-router-dom'
-import { Button } from 'antd-mobile'
+import { TabBar } from 'antd-mobile'
 import { useEffect } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { getBillList } from '@/store/modules/billStore'
+import './index.scss'
+import {
+	BillOutline,
+	CalculatorOutline,
+	AddCircleOutline,
+} from 'antd-mobile-icons'
+
+const tabs = [
+	{
+		key: '/month',
+		title: '每月帳單',
+		icon: <BillOutline />,
+	},
+	{
+		key: '/new',
+		title: '再記一筆',
+		icon: <AddCircleOutline />,
+	},
+	{
+		key: '/year',
+		title: '年度帳單',
+		icon: <CalculatorOutline />,
+	},
+]
 
 const Layout = () => {
 	const dispatch = useDispatch()
@@ -10,13 +34,24 @@ const Layout = () => {
 		dispatch(getBillList())
 	}, [dispatch])
 
+	// 路由跳轉
+	const navigate = useNavigate()
+	const switchRoute = path => {
+		console.log(path)
+		navigate(path)
+	}
+
 	return (
-		<div>
-			<Outlet />
-			我是Layout
-			<Button color="primary">我是按鈕</Button>
-			<div className="purple-theme">
-				<Button color="primary">我是局部按鈕</Button>
+		<div className="layout">
+			<div className="container">
+				<Outlet />
+			</div>
+			<div className="footer">
+				<TabBar onChange={switchRoute}>
+					{tabs.map(item => (
+						<TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+					))}
+				</TabBar>
 			</div>
 		</div>
 	)
